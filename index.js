@@ -32,6 +32,30 @@ app.post("/imc", (req, res)=>{
     });
 });
 
+app.post("/media", (req, res)=>{
+    const {nome, nota1, nota2} = req.body;
+
+    if(!nome || !nota1 || !nota2){
+        return res.status(400).json({error: 'Dados incompletos.'});
+    }
+
+    const media = (nota1 + nota2) / 2;
+
+    if(media >= 7){
+        return res.json({
+            nome,
+            media: media.toFixed(2),
+            situacao: 'Aprovado'
+        });
+    }
+
+    return res.json({
+        nome,
+        media: media.toFixed(2),
+        situacao: 'Reprovado'
+    });
+});
+
 
 app.listen(port, ()=>{
     console.log(`Servidor rodando em http://localhost:${port}`);
